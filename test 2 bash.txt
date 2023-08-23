@@ -1,0 +1,165 @@
+1. Go to the home directory
+
+PS C:\Users\User\Desktop\Bash> pwd
+
+Path                           
+----                           
+C:\Users\User\Desktop\Bash     
+
+
+PS C:\Users\User\Desktop\Bash> 
+
+
+2. Create a directory named "test3"
+
+PS C:\Users\User\Desktop\Bash> mkdir test3
+
+3. Add three files, named 4, 5, and 6, to the "test3" directory. Each file should contain the following four lines:
+ "row1", "row2", "row3", "row4"
+
+PS C:\Users\User\Desktop\Bash\test3> Set-Location $Home\test3
+PS C:\Users\User\test3> $contents = "row1", "row2", "row3", "row4"
+PS C:\Users\User\test3> foreach ($i in 4..6) {
+>>  $contents | Out-File -FilePath "file$i.txt" -Force
+>> }
+
+4. Find the string "row2" in file 5
+
+PS C:\Users\User\test3> Select-String -Path $Home\test3\file5.txt -Pattern "row2"
+
+5. Search for the string "row" in the "test3" directory.
+
+PS C:\Users\User\test3> Select-String -Path $Home\test3\* -Pattern "row"
+
+6. Count how many lines containing the content "row" are there in file 6.
+
+
+PS C:\Users\User\test3> (Get-Content $Home\test3\file6.txt | Select-String -Pattern "row").Count
+4
+
+7. Find the file named 5 inside the "test3" directory
+
+PS C:\Users\User\test3> Get-ChildItem $Home\test3 -Recurse -Filter "file5.txt"
+
+8. Using the find command, delete the file 5
+
+
+PS C:\Users\User\test3> Remove-Item -Path (Get-ChildItem $Home\test3 -Filter "file5.txt").FullName -Force
+
+9. Using the echo command, add the word "test" to file 4.
+
+PS C:\Users\User\test3> echo "test" | Out-File -Append $Home\test3\file4.txt
+
+10. Replace the word "test" with "fail" in file 4
+
+PS C:\Users\User\test3> (Get-Content $Home\test3\file4.txt) -replace "test", "fail" | Set-Content $Home\test3\file4.txt
+
+11. Add the word "test" to file 4 in a way that preserves the existing content
+
+PS C:\Users\User\test3> Add-Content -Path $Home\test3\file4.txt -Value "test"
+
+12. Review all processes for users, not only in the console, that are occurring in the system
+
+PS C:\Users\User\test3> Get-Process
+
+13. Terminate process 666 in the console
+
+PS C:\Users\User\test3> bash: kill: (666)
+bash: kill: (666) - No such process
+
+14. Check the availability of the resource artsiomrusau.com using ping
+
+PS C:\Users\User\Desktop\Bash> ping artsiomrusau.com
+
+Pinging artsiomrusau.com [185.215.4.92] with 32 bytes of data:
+Request timed out.
+Request timed out.
+Request timed out.
+Request timed out.
+
+Ping statistics for 185.215.4.92:
+    Packets: Sent = 4, Received = 0, Lost = 4 (100% loss),
+
+15. Send 5 packets to the website artsiomrusau.com
+
+PS C:\Users\User\Desktop\Bash> ping -n 5 artsiomrusau.com
+
+Pinging artsiomrusau.com [185.215.4.92] with 32 bytes of data:
+Request timed out.
+Request timed out.
+Request timed out.
+Request timed out.
+Request timed out.
+
+Ping statistics for 185.215.4.92:
+    Packets: Sent = 5, Received = 0, Lost = 5 (100% loss),
+
+16. Retrieve information about registered pets at https://petstore.swagger.io/ using the GET method and the curl command
+
+PS C:\Users\User\Desktop\Bash> curl -UseBasicParsing https://petstore.swagger.io/v2/pet/findByStatus?status=available
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : [{"id":9223372036854770155,"category":{"id":0,"name":"string"},"name":"Puff","photoUrls":["string"],"tags":[{"id":0,"name":"string"}],"status":" 
+                    available"},{"id":9223372036854770158,"category":{"id":0...
+RawContent        : HTTP/1.1 200 OK
+                    Transfer-Encoding: chunked
+                    Connection: keep-alive
+                    Access-Control-Allow-Origin: *
+                    Access-Control-Allow-Methods: GET, POST, DELETE, PUT
+                    Access-Control-Allow-Headers: Content-Type, a...
+Forms             :
+Headers           : {[Transfer-Encoding, chunked], [Connection, keep-alive], [Access-Control-Allow-Origin, *], [Access-Control-Allow-Methods, GET, POST, DELETE,     
+                    PUT]...}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        :
+RawContentLength  : 35889
+
+
+17. Using POST and the curl command, create a new user on  https://petstore.swagger.io/ 
+
+
+PS C:\Users\User\Desktop\Bash> $headers = @{
+>>     "Content-Type" = "application/json"
+PS C:\Users\User\Desktop\Bash> $body = @{
+>>     "id" = 0
+>>     "username" = "lindaninda"        
+>>     "firstName" = "linda"
+>>     "lastName" = "Santa"  
+>>     "email" = "carle@gmail.com"    
+>>     "password" = "12345" 
+>>     "phone" = "1234567890"
+>>     "userStatus" = 1
+
+PS C:\Users\User\Desktop\Bash> Invoke-WebRequest -Uri "https://petstore.swagger.io/v2/user" -Method POST -Headers $headers -Body ($body | ConvertTo-Json) -UseBasicParsing
+PS C:\Users\User\Desktop\Bash> Invoke-WebRequest -Uri "https://petstore.swagger.io/v2/user" -Method POST -Headers $headers -Body ($body | ConvertTo-Json) -UseBasicParsing
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"code":200,"type":"unknown","message":"9223372036854754901"}
+RawContent        : HTTP/1.1 200 OK
+                    Transfer-Encoding: chunked
+                    Connection: keep-alive
+                    Access-Control-Allow-Origin: *
+                    Access-Control-Allow-Methods: GET, POST, DELETE, PUT
+                    Access-Control-Allow-Headers: Content-Type, a...
+Forms             :
+Headers           : {[Transfer-Encoding, chunked], [Connection, keep-alive], [Access-Control-Allow-Origin, *], [Access-Control-Allow-Methods, GET,  
+                    POST, DELETE, PUT]...}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        :
+RawContentLength  : 61
+
+
+
+
+
+
+
+
+
